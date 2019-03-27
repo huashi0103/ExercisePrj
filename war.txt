@@ -1,0 +1,2 @@
+COMTest\OfficeTest.cs(302,30): warning CS0168: 声明了变量“ex”，但从未使用过 [E:\codespace\ExercisePrj\ExercisePrj\ExercisePrj.csproj]
+Program.cs(31,26): warning CS0219: 变量“flag”已被赋值，但从未使用过它的值 [E:\codespace\ExercisePrj\ExercisePrj\ExercisePrj.csproj]

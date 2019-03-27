@@ -1,0 +1,22 @@
+
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"> 
+<PropertyGroup>  
+  <AssemblyName>MSBuildSample</AssemblyName>  
+  <OutputPath>Bin\</OutputPath>  
+</PropertyGroup>  
+<ItemGroup>  
+   <AssemblyInfoFiles Include="..\ExerciseUIPrj\AssemblyInfo.cs" />
+	<AssemblyInfoFiles Include="..\ExerciseUIPrj\AssemblyInfo.cs" />
+</ItemGroup>  
+
+<SvnVersion LocalPath="$(MSBuildProjectDirectory)" ToolPath="$(SvnTool)">
+  <Output TaskParameter="Revision" PropertyName="Revision" />
+<FileUpdate Files="@(AssemblyInfoFiles)"
+            Regex="(\d+)\.(\d+)\.(\d+)\.(\d+)"
+            ReplacementText="$(MajorVersion).$(MinorVersion).$(Revision).0" />
+			
+<Target Name="Rebuild"> 
+	<MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />  
+    <Csc Sources="@(Compile)" OutputAssembly="$(OutputPath)$(AssemblyName).exe" />   
+<MSBuild  Projects="$(MSBuildProjectDirectory)\ExercisePrj.sln" Targets="Rebuild" Properties="Configuration=Release;" />  
+</Project>  
