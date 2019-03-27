@@ -122,6 +122,171 @@ namespace ExercisePrj.Algorithm
             }
         }
 
-        
-    }
+        //逆序栈元素
+        public static int GetAndRemoveLastElement(Stack<int> stack)
+        {
+            int result = stack.Pop();
+            if (stack.Count == 0)
+            {
+                return result;
+            }
+            else
+            {
+                int last = GetAndRemoveLastElement(stack);
+                stack.Push(result);
+                return last;
+            }
+        }
+        public static void Reverse(Stack<int> stack)
+        {
+            if (stack.Count == 0)
+            {
+                return;
+            }
+            else
+            {
+                int i = GetAndRemoveLastElement(stack);
+                Reverse(stack);
+                stack.Push(i);
+            }
+        }
+
+        //猫狗队列
+        public class Pet {
+            protected string type;
+           
+            public Pet(string type) {
+                this.type = type;
+            }
+            public string GetPetType()
+            {
+                return type;
+            }
+        }
+        public class Dog : Pet {
+            public Dog(string type):base(type)
+            {
+                type = "dog";      
+            }
+        }
+        public class Cat : Pet
+        {
+            public Cat(string type) : base(type)
+            {
+                type = "cat";
+            }
+
+        }
+        public class PetEnterQueue {
+            private Pet pet;
+            private long count;
+            public PetEnterQueue(Pet pet, long count)
+            {
+                this.pet = pet;
+                this.count = count;
+            }
+            public Pet GetPet()
+            {
+                return this.pet;
+            }
+            public long GetCount()
+            {
+                return this.count;
+            }
+            public string GetEnterPetType()
+            {
+                return pet.GetPetType();
+            }
+        }
+        public class DogCatQueue {
+            private Queue<PetEnterQueue> dogQ;
+            private Queue<PetEnterQueue> catQ;
+            private long count=0;
+            public DogCatQueue() {
+                this.dogQ = new Queue<PetEnterQueue>();
+                this.catQ = new Queue<PetEnterQueue>();
+            }
+
+            public void Add(Pet pet) {
+                if (pet.GetPetType() == "dog")
+                {
+                    this.dogQ.Enqueue(new PetEnterQueue(pet, this.count++));
+                }
+                else if (pet.GetPetType() == "cat")
+                {
+                    this.catQ.Enqueue(new PetEnterQueue(pet, this.count++));
+                }
+                else
+                {
+                    throw new Exception("not dog or cat");
+                }
+            }
+            public Pet PollAll()
+            {
+                if (!(dogQ.Count == 0) && !(catQ.Count == 0))
+                {
+                    return (dogQ.Peek().GetCount() > catQ.Peek().GetCount()) ? dogQ.Dequeue().GetPet() : catQ.Dequeue().GetPet();
+                }
+                else if (!(dogQ.Count == 0))
+                {
+                    return dogQ.Dequeue().GetPet();
+                }
+                else if (!(catQ.Count == 0))
+                {
+                    return catQ.Dequeue().GetPet();
+                }
+                else
+                {
+                    throw new Exception("queue is empty");
+                }
+            }
+            public Pet PollDog()
+            {
+                if (dogQ.Count != 0)
+                {
+                    return dogQ.Dequeue().GetPet();
+                }
+                else {
+                    throw new Exception("no dog");
+                }
+
+            }
+            public Pet PollCat()
+            {
+                if (catQ.Count != 0)
+                {
+                    return catQ.Dequeue().GetPet();
+                }
+                else
+                {
+                    throw new Exception("no cat");
+                }
+
+            }
+
+
+        }
+
+        //用一个栈排序另一个栈
+        public static void SortStackByStack(Stack<int> stack) {
+            Stack<int> help = new Stack<int>();
+            while (stack.Count == 0)
+            {
+                var cur = stack.Pop();
+                while (help.Count != 0 && help.Peek() > cur)
+                {
+                    stack.Push(help.Pop());
+
+                }
+                help.Push(cur);
+
+            }
+            while (help.Count != 0)
+            {
+                stack.Push(help.Pop());
+            }
+        }
+
+
+    } 
 }
